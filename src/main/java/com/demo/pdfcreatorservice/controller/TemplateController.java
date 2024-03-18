@@ -9,11 +9,13 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2Res
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,6 +26,11 @@ public class TemplateController {
     @PostMapping("/template")
     public TemplateDto create(@RequestBody TemplateRequest request, Principal principal){
         return templateService.create(request, principal.getName());
+    }
+
+    @GetMapping("/template")
+    public List<TemplateDto> getAllPublicTemplates() {
+        return templateService.getAll();
     }
 
     @Data

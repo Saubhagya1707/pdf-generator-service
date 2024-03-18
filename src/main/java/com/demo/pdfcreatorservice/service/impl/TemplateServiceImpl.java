@@ -8,6 +8,9 @@ import com.demo.pdfcreatorservice.repository.UserRepository;
 import com.demo.pdfcreatorservice.service.TemplateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +29,11 @@ public class TemplateServiceImpl implements TemplateService {
                         .createdBy(userRepository.findByEmail(userEmail).orElseThrow())
                         .build()
         ));
+    }
+
+    @Override
+    @Transactional
+    public List<TemplateDto> getAll() {
+        return templateRepository.findAllByVisibility(Template.Visibility.PUBLIC).stream().map(TemplateDto::of).toList();
     }
 }
